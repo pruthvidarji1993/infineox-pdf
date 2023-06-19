@@ -1,1 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Infineox-PDF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --pdf-bg: #f1e5ff;
+        --text-primary: #671bff;
+        --text-secondary: #737373b2;
+        --border-primary: #e0d3f2;
+        --box-bg: #e9dafc;
+        --box-number-bg: #e2ceff;
+      }
 
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+      }
+
+      /* PDF CSS */
+      .pdf-main {
+        background-color: var(--pdf-bg);
+        padding: 10px;
+      }
+
+      .pdf-head img {
+        width: 100%;
+        height: 80px;
+        margin-block: 110px;
+      }
+
+      .pdf-head-box {
+        background-color: #fff;
+        padding: 22px;
+        /* width: 68%; */
+        margin: auto;
+        border-bottom: 6px solid var(--border-primary);
+        margin-bottom: 80px;
+      }
+
+      .pdf-head-box p {
+        color: var(--text-primary);
+        font-weight: 500;
+        font-size: 25px;
+        text-align: center;
+      }
+
+      /* Calculate Box  */
+
+      .calculate-title {
+        margin-block: 15px;
+        font-size: 18px;
+        text-align: center;
+        color: var(--text-secondary);
+      }
+
+      .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 10px;
+        background-color: var(--box-bg);
+        padding: 20px;
+        border-bottom: 3px solid var(--border-primary);
+      }
+
+      .grid-item {
+        padding: 10px;
+      }
+
+      .grid-item-text {
+        font-size: 20px;
+        color: #000000a9;
+        display: block;
+        text-align: end;
+      }
+
+      .grid-item-price {
+        font-size: 28px;
+        font-weight: 700;
+        background-color: var(--pdf-bg);
+        border-bottom: 2px solid #aea7b8;
+        padding: 10px 20px;
+      }
+
+      .input-container {
+        display: flex;
+        flex-direction: column;
+        width: 200px;
+      }
+
+      .bottom-text {
+        display: block;
+        margin-block: 6px;
+        font-size: 16px;
+      }
+
+      .end-box {
+        justify-content: flex-start !important;
+        gap: 10px;
+        align-items: start !important;
+      }
+
+      /* Budget Box  */
+      .budget-container {
+        text-align: center;
+        margin-bottom: 100px;
+      }
+
+      .budget-container-text {
+        font-size: 22px;
+        font-weight: 500;
+      }
+
+      .budget-container-text span {
+        font-size: 26px;
+        font-weight: 600;
+      }
+
+      .budget {
+        display: flex;
+        justify-content: space-around;
+        align-items: start;
+        margin: 50px 20px;
+        padding: 10px;
+      }
+
+      .budget-title {
+        font-size: 28px;
+        font-weight: 500;
+        width: 200px;
+      }
+
+      .budget-box {
+        background-color: #fff;
+        padding: 10px 42px;
+        border-bottom: 4px solid #b2acb9;
+        margin-bottom: 8px;
+      }
+
+      .budget-box-title {
+        font-size: 20px;
+        margin-bottom: 10px;
+        font-weight: 500;
+      }
+
+      .budget-box-price {
+        font-size: 28px;
+        font-weight: 600;
+      }
+
+      .budget-box-bottom-text {
+        font-size: 18px;
+        font-weight: 400;
+      }
+
+      /* Funding container */
+      .funding-container {
+        margin-bottom: 42px;
+      }
+
+      .funding-container h2 {
+        font-size: 28px;
+        font-weight: 500;
+        background-color: white;
+        padding: 26px;
+        border-bottom: 6px solid var(--border-primary);
+        text-align: center;
+      }
+
+      .funding-tagline {
+        margin-block: 60px;
+        font-size: 18px;
+        text-align: center;
+        color: var(--text-secondary);
+        margin-bottom: 20px;
+      }
+
+      .fund-area {
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        /* flex-wrap: wrap; */
+        margin-bottom: 30px;
+      }
+
+      .area1,
+      .area2 {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .area1-img {
+        right: -49px;
+        top: 71px;
+      }
+
+      .area2-img {
+        left: -49px;
+        top: 257px;
+        transform: rotate(120deg) !important;
+      }
+
+      .area2-img2 {
+        left: -31px;
+        bottom: 215px;
+      }
+
+      .fund-box {
+        background-color: var(--box-bg);
+        display: flex;
+        align-items: center;
+        width: 96%;
+        padding: 0px 30px;
+        height: 216px;
+        border-bottom: 6px solid var(--border-primary);
+        margin: 10px;
+      }
+
+      .fund-box-3 {
+        margin-top: 70px;
+      }
+
+      .fund-box-2 {
+        margin-top: 117px;
+      }
+
+      .fund-box-4 {
+        margin-top: 105px;
+      }
+
+      .fund-box-number {
+        background-color: var(--box-number-bg);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0px 7px;
+      }
+
+      .fund-box-text {
+        margin: 0px 10px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+      }
+
+      .fund-box-head-text {
+        font-size: 20px;
+        font-weight: 500;
+      }
+
+      .fund-box-head-text span {
+        font-weight: 500;
+        color: var(--text-primary);
+      }
+
+      .fund-box-foot-text {
+        font-size: 19px;
+        font-weight: 300;
+      }
+
+      .fund-box-foot-text span {
+        font-weight: 500;
+        color: var(--text-primary);
+      }
+
+      .fund-container-text {
+        font-size: 17px;
+        font-weight: 400;
+        width: 68%;
+        margin: auto;
+      }
+
+      .fund-container-text span {
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      /* Key Note Box  */
+      .key-note-box {
+        width: 55%;
+        margin: auto;
+        text-align: center;
+        border-bottom: 5px solid var(--border-primary);
+        margin-bottom: 40px;
+      }
+
+      .key-note-box-heading {
+        font-weight: bolder;
+        font-size: 20px;
+        background-color: var(--box-number-bg);
+        padding-block: 10px;
+      }
+
+      .key-note-box-detail {
+        background-color: var(--box-bg);
+        padding: 20px 72px;
+        line-height: 23px;
+      }
+
+      /* Steps to OPERATE */
+      .minimizer-heading {
+        padding-top: 40px;
+        padding-bottom: 40px;
+      }
+
+      .minimizer-heading-text {
+        text-align: center;
+        padding: 15px;
+        font-weight: 400;
+        background-color: white;
+        margin: auto;
+        font-size: 30px;
+        font-weight: bolder;
+        color: var(--text-primary);
+        border-bottom: 15px solid var(--border-primary);
+      }
+
+      .steps {
+        background-color: var(--box-bg);
+        margin: auto;
+        padding-inline: 15px;
+        display: flex;
+        border-bottom: 5px solid var(--border-primary);
+        margin-bottom: 30px !important;
+      }
+
+      .number-class {
+        margin-left: 22px;
+        display: flex !important;
+        flex-direction: column;
+        background-color: #e2ceff;
+        justify-content: center;
+        padding-inline: 10px;
+      }
+
+      .mortage-second-heading {
+        font-weight: bolder;
+        line-height: 26px;
+      }
+
+      .mortage-description {
+        padding: 30px 10px 20px 30px;
+        line-height: 26px;
+        width: 100%;
+      }
+
+      .dollar-class {
+        font-weight: bolder;
+      }
+
+      /* Results  */
+      .last_page {
+        margin-block: 120px;
+      }
+
+      .last_page_list {
+        padding-top: 20px;
+      }
+
+      .last_page_list ul {
+        margin-inline: 63px;
+      }
+
+      .text_head {
+        background-color: white;
+        padding-bottom: 19px;
+        margin: auto;
+        border-bottom: 10px solid var(--border-primary);
+      }
+
+      .text_content {
+        color: var(--text-primary);
+        font-size: 26px;
+        font-weight: 600;
+        text-align: center;
+        padding-top: 22px;
+      }
+
+      .text_currency {
+        background-color: white;
+        color: var(--text-primary);
+        font-weight: 700;
+        border-bottom: 2px solid #b1abb8;
+      }
+
+      .list_text {
+        padding-top: 20px;
+      }
+
+      .list_text_p {
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 30px;
+        padding-top: 10px;
+      }
+
+      .hope_text p {
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 30px;
+        padding-top: 20px;
+        margin-inline: 50px;
+      }
+
+      .infineo_img {
+        width: 400px;
+        margin: auto;
+        margin-block: 100px;
+      }
+
+      /* Utility Classes */
+      .text-center {
+        text-align: center;
+      }
+
+      .d-center-col {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .d-center-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .text-primary {
+        color: var(--text-primary) !important;
+      }
+
+      .text-secondary {
+        color: var(--text-secondary) !important;
+      }
+
+      .number-circle {
+        background-color: var(--text-primary);
+        color: var(--box-number-bg);
+        border-radius: 50%;
+        display: inline-block;
+        text-align: center;
+        padding: 11px 19px;
+        font-size: 30px;
+        font-weight: 500;
+      }
+
+      .arrow {
+        filter: invert(1);
+        height: 55px;
+        position: absolute;
+        transform: rotate(230deg);
+      }
+
+      #downloadButton {
+        padding: 10px 30px;
+        border: 1px solid #b8bdf5;
+        color: white;
+        background-color: #671bff;
+        cursor: pointer;
+        border-radius: 20px;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="d-center-col">
+      <h1 class="text-center">Infineox-PDF</h1>
+      <button id="downloadButton">Print</button>
+    </div>
+    <!-- Actual PDF Starts Here -->
+    <div id="pdf-main" class="pdf-main">
+      <!-- PDF Head  -->
+      <div class="pdf-head">
+        <!-- <img src="logo.svg" alt="Infineox-logo" /> -->
+        <img
+          src="https://uploads-ssl.webflow.com/63a293c181600a13198fd0d5/63a2a5ec4905013cc86dc58f_Colored%20-%20SVG%20-%20Unbuffered%20-%20Infineo%20Rectangular%20Logo.svg"
+          alt="Infineox-logo"
+        />
+      </div>
+
+      <div class="pdf-head-box">
+        <p>
+          A Personal Mortgage Minimizer Handbook Created by infineo For
+          [Name1,Name2, Name3, ...].
+        </p>
+      </div>
+
+      <!-- Calculate Box  -->
+      <div class="calculate-container">
+        <p class="calculate-title">
+          The total surplus budget provided to you was determined via the
+          following numbers:
+        </p>
+        <div class="grid-container">
+          <div class="grid-item">
+            <span class="grid-item-text">Total monthly income</span>
+          </div>
+          <div class="grid-item">
+            <span class="grid-item-price">$10,856.24</span>
+          </div>
+          <div class="grid-item">
+            <span class="grid-item-text"
+              >Total monthly expenses, after expense reductions</span
+            >
+          </div>
+          <div class="grid-item">
+            <span class="grid-item-price">- $7,794.82</span>
+          </div>
+          <div class="grid-item">
+            <span></span>
+          </div>
+          <div class="grid-item">
+            <div class="d-center-row end-box">
+              <div class="input-container">
+                <span class="grid-item-price text-primary">= $3,061.42</span>
+                <span class="bottom-text text-primary"
+                  >Preliminary surplus budget</span
+                >
+              </div>
+              <div class="input-container">
+                <span class="grid-item-price text-primary">+ $2,060.97</span>
+                <span class="bottom-text text-primary"
+                  >Principal portion of your monthly mortgage payment in year
+                  1</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Budget container  -->
+      <div class="budget-container">
+        <div class="budget">
+          <div>
+            <p class="budget-title">Total surplus budget</p>
+          </div>
+          <div>
+            <div class="budget-box">
+              <p class="budget-box-title">Monthly</p>
+              <p class="budget-box-price text-primary">$5,122.39</p>
+            </div>
+            <span class="budget-box-bottom-text">($3061.42+$2060.97)</span>
+          </div>
+          <div class="budget-box">
+            <p class="budget-box-title">Annually</p>
+            <p class="budget-box-price text-primary">$61,468.71</p>
+          </div>
+        </div>
+        <div class="budget-container-text">
+          Of the Annual amount, we are only using a combined total of
+          <span> $50,000</span> as the annual deposit into the Mortgage
+          Minimizer System.
+        </div>
+      </div>
+
+      <!-- Funding container  -->
+      <div class="funding-container">
+        <h2 class="text-primary">Policy(s) Setup & Initial Funding</h2>
+        <p class="funding-tagline">
+          The initial total deposit of $50,000 will come from a withdrawal from
+          your HELOC
+        </p>
+        <div class="fund-area">
+          <div class="area1">
+            <img class="arrow area1-img" src="arrow-new.png" alt="arrow" />
+            <!-- 1 Box  -->
+            <div class="fund-box fund-box-1">
+              <div class="fund-box-number">
+                <div class="number-circle">1</div>
+              </div>
+              <div class="fund-box-text">
+                <div class="fund-box-head-text">
+                  Make your normal mortgage payments for the next 12 months.
+                </div>
+                <div class="fund-box-foot-text">
+                  <span>$24,732</span> ($2061.97*12) of room will accumulate in
+                  the HELOC
+                </div>
+              </div>
+            </div>
+            <!-- 3 Box  -->
+            <div class="fund-box fund-box-3">
+              <div class="fund-box-number">
+                <div class="number-circle">3</div>
+              </div>
+              <div class="fund-box-text">
+                <div class="fund-box-head-text">
+                  You will accumulate additional HELOC room of
+                  <span>$58,217</span>, mortgage principal + surplus budget –
+                  HELOC interest
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="area2">
+            <img class="arrow area2-img" src="arrow.png" alt="arrow" />
+            <!-- 2 Box  -->
+            <div class="fund-box fund-box-2">
+              <div class="fund-box-number">
+                <div class="number-circle">2</div>
+              </div>
+              <div class="fund-box-text">
+                <div class="fund-box-head-text">
+                  Deposit the surplus budget identified of $3061.42 per month
+                  into the HELOC.
+                </div>
+                <div class="fund-box-foot-text">
+                  Preferably this is broken down to correspond to your paydays.
+                </div>
+              </div>
+            </div>
+            <!-- 4 Box  -->
+            <div class="fund-box fund-box-4">
+              <div class="fund-box-number">
+                <div class="number-circle">4</div>
+              </div>
+              <div class="fund-box-text">
+                <div class="fund-box-head-text">
+                  Each year on the anniversary, <span>$50,000</span> will be
+                  withdrawn from the HELOC and deposited into the policy(s).
+                </div>
+              </div>
+            </div>
+            <img class="arrow area2-img2" src="arrow-new.png" alt="arrow" />
+          </div>
+        </div>
+        <div class="fund-container-text text-">
+          <span> Note:</span> Both your income and the principal portion of
+          mortgage payments will increase each year, but the policy funding
+          stays at
+          <span>$50,000</span>
+        </div>
+      </div>
+
+      <!-- KEY POINT Box  -->
+      <div class="key-note-box">
+        <div class="key-note-box-heading">KEY POINT</div>
+        <div class="key-note-box-detail">
+          Not a single dollar of this amount is locked up or unavailable to you
+          should you need it for any important reason. This entire system is
+          designed to provide financial flexibility and peace of mind.
+        </div>
+      </div>
+
+      <!-- Steps to OPERATE -->
+      <div class="steps-container">
+        <div class="minimizer-heading">
+          <p class="minimizer-heading-text">
+            Steps to OPERATE your Mortgage Minimizer
+          </p>
+        </div>
+
+        <div class="steps">
+          <div class="number-class">
+            <div class="number-circle">1</div>
+          </div>
+          <div class="mortage-description">
+            <p>
+              Upon making the annual deposit into your policy, withdraw the
+              maximum available policy loan(s) and use that money to make an
+              early payment on the mortgage principal. Dollar for dollar, the
+              amount will become available in the HELOC. Withdraw that amount
+              and use it to pay off your other debts, as directed below.
+            </p>
+          </div>
+        </div>
+
+        <div class="steps">
+          <div class="number-class">
+            <div class="number-circle">2</div>
+          </div>
+
+          <div class="mortage-description">
+            <p class="mortage-second-heading">
+              This plan is detailed in the Debt Payment section if applicable.
+              Table to be inserted when applicable.
+            </p>
+            <p>
+              For each debt paid out, the payment you were making to that debt
+              will now be made back to the policy loan. i.e.; if you paid off a
+              CC with a $300 minimum payment, now make that $300 payment to your
+              own bank. Note; you are not making any additional payments, only
+              changing who receives them, you vs a third party. To be clear, you
+              borrowed money from the insurance company, who then placed a lien
+              on your policy. Every payment you make reduces the lien, and that
+              amount of money is immediately available to be used for another
+              purpose.
+            </p>
+          </div>
+        </div>
+
+        <div class="steps">
+          <div class="number-class">
+            <div class="number-circle">3</div>
+          </div>
+          <div class="mortage-description">
+            <p>
+              At the next anniversary, make your
+              <span class="dollar-class"> $50,000 </span>deposit and repeat the
+              cycle until all debts to 3rd parties are paid in full. You then
+              continue the same payments until the policy loan used is paid in
+              full.
+            </p>
+          </div>
+        </div>
+
+        <div class="steps">
+          <div class="number-class">
+            <div class="number-circle">4</div>
+          </div>
+          <div class="mortage-description">
+            <p>
+              Now that all other debts are paid, continue to the cycle annually,
+              putting the full available policy loan towards the mortgage until
+              it's paid in full. The full policy loan used annually to make this
+              payment is immediately re-drawn from the HELOC to pay the policy
+              loan in full each year. This step happens within 1 week each time.
+            </p>
+          </div>
+        </div>
+
+        <div class="steps">
+          <div class="number-class">
+            <div class="number-circle">5</div>
+          </div>
+          <div class="mortage-description">
+            <p>
+              Continue to fund the policy(s) in the same manner, until the
+              policy loan available exceeds the HELOC debt. Once that occurs,
+              the entire HELOC balance is paid in full with a policy loan. This
+              will be made clear in this report. Once this point is reached, the
+              annual policy funding will come from Income directly, and the
+              balance of the ever increasing surplus budget with be paid to the
+              policy loan until it is paid in full.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Page  -->
+      <div class="last_page">
+        <div class="text_head">
+          <p class="text_content">
+            The Results of Claiming Your Financial Freedom Using the Mortgage
+            Minimizer by infineo
+          </p>
+        </div>
+        <div class="last_page_list">
+          <ul>
+            <li class="list_text">
+              <p class="list_text_p">
+                Your home mortgage will be paid out at the bank in
+                <b>X</b> years.
+              </p>
+            </li>
+            <li class="list_text">
+              <p class="list_text_p">
+                The HELOC will be paid out in <b>X</b> years, meaning clear
+                title on your home <b>XX</b> years early. The only variable on
+                this is if you choose to spend a portion of the extra HELOC room
+                on other things. This will delay how quickly you can pay out the
+                HELOC with your own banking system, but will not seriously
+                hinder the long term effectiveness of implementing this.
+              </p>
+            </li>
+            <li class="list_text">
+              <p class="list_text_p">
+                During the 1st <b>X</b> years, all other debts are paid out as
+                well.
+              </p>
+            </li>
+            <li class="list_text">
+              <p class="list_text_p">
+                By year <b>X</b>, your annual budget surplus increases to over
+                <span class="text_currency">$XX,XXX</span> , as your debts and
+                associated payments are eliminated. That money, less your annual
+                deposit, is then moved into your banking system wiping out your
+                remaining policy loans which are making you a profit.
+              </p>
+            </li>
+            <li class="list_text">
+              <p class="list_text_p">
+                By year <b>X</b> (The year the all debts including policy loans
+                are paid), your NET WORTH will have increased from
+                <span class="text_currency">$XXX,XXX</span> to
+                <span class="text_currency">$XXX,XXX</span> , and by retirement,
+                it increases to <span class="text_currency">X.X Million</span> .
+              </p>
+            </li>
+            <li class="list_text">
+              <p class="list_text_p">
+                The longer you actively engage in this financial lifestyle, the
+                more places you will find to profit from your spending. The next
+                time you trade your car, paying property taxes, kid’s tuition,
+                income taxes etc., the list is endless.
+              </p>
+            </li>
+            <li class="list_text">
+              <p class="list_text_p">
+                Regarding retirement, you could spend down your assets to zero,
+                taking a larger amount each year, without fear of running out of
+                money. The cash value in your policies can be spent tax free in
+                a couple ways, and your eventual death benefit will replace most
+                if not all that you have spent in retirement tax free to your
+                beneficiaries. An incredible plan and legacy.
+              </p>
+            </li>
+          </ul>
+        </div>
+        <div class="hope_text">
+          <p>I hope you are excited to get started.</p>
+        </div>
+        <div class="infineo_img">
+          <img
+            src="https://uploads-ssl.webflow.com/63a293c181600a13198fd0d5/63a2a5ec4905013cc86dc58f_Colored%20-%20SVG%20-%20Unbuffered%20-%20Infineo%20Rectangular%20Logo.svg"
+          />
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    document.getElementById("downloadButton").addEventListener("click", () => {
+      window.jsPDF = window.jspdf.jsPDF;
+      var doc = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+        marginLeft: 10,
+        marginRight: 10,
+        marginBottom: 10,
+        marginTop: 10,
+      });
+      // Source HTMLElement or a string containing HTML.
+      var elementHTML = document.querySelector("#pdf-main");
+      doc.html(elementHTML, {
+        callback: function (doc) {
+          // Save the PDF
+          doc.save("sample-document.pdf");
+        },
+        x: 10,
+        y: 10,
+        width: 210, // Target width in the PDF document
+        windowWidth: 1000, // Window width in CSS pixels
+        addPageContent: function () {
+          doc.addPage();
+        },
+      });
+    });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+</html>
