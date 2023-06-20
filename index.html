@@ -33,13 +33,13 @@
       /* PDF CSS */
       .pdf-main {
         background-color: var(--pdf-bg);
-        padding: 10px;
+        /* padding: 10px; */
       }
 
       .pdf-head img {
         width: 100%;
         height: 80px;
-        margin-block: 110px;
+        margin-block: 100px;
       }
 
       .pdf-head-box {
@@ -168,7 +168,7 @@
 
       /* Funding container */
       .funding-container {
-        margin-bottom: 42px;
+        margin-bottom: 22px;
       }
 
       .funding-container h2 {
@@ -181,11 +181,11 @@
       }
 
       .funding-tagline {
-        margin-block: 60px;
+        margin-block: 52px;
         font-size: 18px;
         text-align: center;
         color: var(--text-secondary);
-        margin-bottom: 20px;
+        margin-bottom: 5px;
       }
 
       .fund-area {
@@ -193,7 +193,7 @@
         display: flex;
         justify-content: space-evenly;
         /* flex-wrap: wrap; */
-        margin-bottom: 30px;
+        margin-bottom: 15px;
       }
 
       .area1,
@@ -226,7 +226,6 @@
         align-items: center;
         width: 96%;
         padding: 0px 30px;
-        height: 216px;
         border-bottom: 6px solid var(--border-primary);
         margin: 10px;
       }
@@ -255,6 +254,7 @@
       .fund-box-text {
         margin: 0px 10px;
         height: 100%;
+        padding: 23px;
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
@@ -298,7 +298,7 @@
         margin: auto;
         text-align: center;
         border-bottom: 5px solid var(--border-primary);
-        margin-bottom: 40px;
+        margin-bottom: 55px;
       }
 
       .key-note-box-heading {
@@ -356,7 +356,8 @@
       }
 
       .mortage-description {
-        padding: 30px 10px 20px 30px;
+        /* padding: 30px 10px 20px 30px; */
+        padding: 50px;
         line-height: 26px;
         width: 100%;
       }
@@ -367,7 +368,7 @@
 
       /* Results  */
       .last_page {
-        margin-block: 120px;
+        margin-top: 120px;
       }
 
       .last_page_list {
@@ -422,7 +423,7 @@
       .infineo_img {
         width: 400px;
         margin: auto;
-        margin-block: 100px;
+        padding-block: 100px;
       }
 
       /* Utility Classes */
@@ -478,6 +479,9 @@
         cursor: pointer;
         border-radius: 20px;
         margin-bottom: 20px;
+      }
+      .html2pdf__page-break {
+        page-break-before: always;
       }
     </style>
   </head>
@@ -735,6 +739,7 @@
             </p>
           </div>
         </div>
+        <div class="html2pdf__page-break"></div>
 
         <div class="steps">
           <div class="number-class">
@@ -768,7 +773,6 @@
           </div>
         </div>
       </div>
-
       <!-- Results Page  -->
       <div class="last_page">
         <div class="text_head">
@@ -851,67 +855,31 @@
     </div>
   </body>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+    integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+
   <script>
     document.getElementById("downloadButton").addEventListener("click", () => {
-      let pdf = new jsPDF("p", "pt", "a4");
-
-      let pWidth = pdf.internal.pageSize.width; // 595.28 is the width of a4
-      let srcWidth = document.getElementById("pdf-main").scrollWidth;
-      let margin = 18; // narrow margin - 1.27 cm (36);
-      let scale = (pWidth - margin * 2) / srcWidth;
-      // Source HTMLElement or a string containing HTML.
-
-      pdf.html(document.getElementById("pdf-main"), {
-        x: margin,
-        y: margin,
+      var element = document.querySelector("#pdf-main");
+      var opt = {
+        margin: 0,
+        filename: "myfile.pdf",
         html2canvas: {
-          scale: scale,
+          scale: 1,
+          useCORS: true, // Enable CORS to render text as HTML elements
         },
-        callback: function (doc) {
-          doc.save("sample-document.pdf");
-        },
-      });
-    });
-    // var elementHTML = document.querySelector("#pdf-main");
-    // // const scale = window.innerWidth / window.outerWidth;
-    // // if (scale != 1) {
-    // //   document.body.style.zoom = scale;
-    // // }
-    // doc.html(elementHTML, {
-    //   html2canvas: {
-    //     scale: 1, // default is window.devicePixelRatio
-    //   },
-    //   callback: function (doc) {
-    //     // Save the PDF
-    //     doc.save("sample-document.pdf");
-    //   },
-    //   x: 10,
-    //   y: 10,
-    //   width: 190, // Target width in the PDF document
-    //   windowWidth: 675, // Window width in CSS pixels
-    //   addPageContent: function () {
-    //     doc.addPage();
-    //   },
-    // });
+        jsPDF: { unit: "in", format: [8.5, 12.5], orientation: "portrait" },
+        pageBreak: { avoid: ".html2pdf__page-break" },
+        pageBreak: { mode: ["css", "legacy"] },
+      };
 
-    // function download() {
-    //   let pWidth = pdf.internal.pageSize.width; // 595.28 is the width of a4
-    //   let srcWidth = document.getElementById("idName").scrollWidth;
-    //   let margin = 18; // narrow margin - 1.27 cm (36);
-    //   let scale = (pWidth - margin * 2) / srcWidth;
-    //   let pdf = new jsPDF("p", "pt", "a4");
-    //   pdf.html(document.getElementById("idName"), {
-    //     x: margin,
-    //     y: margin,
-    //     html2canvas: {
-    //       scale: scale,
-    //     },
-    //     callback: function () {
-    //       window.open(pdf.output("bloburl"));
-    //     },
-    //   });
-    // }
+      html2pdf().set(opt).from(element).save();
+    });
   </script>
 </html>
