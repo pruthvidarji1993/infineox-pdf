@@ -2,13 +2,16 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const puppeteer = require("puppeteer");
+const cors = require('cors')({origin: true});
 
 admin.initializeApp();
 
 exports.generatePDF = functions.https.onRequest(async (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
-    res.set('Access-Control-Allow-Methods', 'POST');
-    res.set('Access-Control-Allow-Headers', 'Content-Type');
+
+    cors(req, res, async () => {
+    // res.set('Access-Control-Allow-Origin', '*');
+    // res.set('Access-Control-Allow-Methods', 'POST');
+    // res.set('Access-Control-Allow-Headers', 'Content-Type');
     const { html, css } = req.body;
     console.log(req.body);
     try {
@@ -51,4 +54,6 @@ exports.generatePDF = functions.https.onRequest(async (req, res) => {
         console.error(error);
         res.status(500).send('An error occurred.');
     }
+
+    })
 });
