@@ -914,7 +914,7 @@
       .addEventListener("click", async () => {
         try {
           const response = await fetch(
-            "http://127.0.0.1:5001/mortgage-minimizer/us-central1/generatePDF",
+            "https://us-central1-mortgage-minimizer.cloudfunctions.net/generatePDF",
             {
               method: "POST",
               headers: {
@@ -922,7 +922,7 @@
               },
               body: JSON.stringify({
                 html: document.getElementById("main").innerHTML,
-                css: document.getElementsByTagName("style")[3].innerHTML,
+                css: document.getElementsByTagName("style")[0].innerHTML,
               }),
             }
           );

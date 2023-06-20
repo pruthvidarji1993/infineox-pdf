@@ -10,7 +10,7 @@ exports.generatePDF = functions.https.onRequest(async (req, res) => {
     res.set('Access-Control-Allow-Methods', 'POST');
     res.set('Access-Control-Allow-Headers', 'Content-Type');
     const { html, css } = req.body;
-
+    console.log(req.body);
     try {
         const browser = await puppeteer.launch({
             headless: 'new',
