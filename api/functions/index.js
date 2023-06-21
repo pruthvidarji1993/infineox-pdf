@@ -16,7 +16,7 @@ exports.generatePDF = functions.https.onRequest(async (req, res) => {
     console.log(req.body);
     try {
         const browser = await puppeteer.launch({
-            headless: 'new',
+            headless: 'false',
             ignoreDefaultArgs: ['--disable-extensions'],
             args: ['--disable-gpu', '--disable-setuid-sandbox', '--no-sandbox', '--no-zygote'],
         });
