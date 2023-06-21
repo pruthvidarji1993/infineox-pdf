@@ -374,11 +374,6 @@
         margin-top: 20px;
         /* margin-top: 120px; */
       }
-
-      .last_page_list {
-        /* padding-top: 20px; */
-      }
-
       .last_page_list ul {
         margin-inline: 20px;
       }
@@ -487,8 +482,10 @@
         border-radius: 20px;
         margin-bottom: 20px;
       }
-      .page-break {
-        page-break-before: always;
+      @media print {
+        .page-break {
+          page-break-after: always;
+        }
       }
       .mt4 {
         margin-top: 30px;
@@ -898,7 +895,6 @@
     const mortgagePayment = "+ $2,060.97";
     const monthly = "$5,122.39";
     const annually = "$61,468.71";
-
     // set value
     document.getElementById("totalMonthlyIncome").innerHTML =
       totalMonthlyIncome;
@@ -909,11 +905,21 @@
     document.getElementById("monthly").innerHTML = monthly;
     document.getElementById("annually").innerHTML = annually;
 
+    let cssData = "";
+    document.getElementsByTagName("style").forEach((element) => {
+      if (element.innerHTML) {
+        if (element.innerHTML.includes(".pdf-main")) {
+          cssData = element.innerHTML;
+        }
+      }
+    });
+
     document
       .getElementById("downloadButton")
       .addEventListener("click", async () => {
         try {
           const response = await fetch(
+            // "http://localhost:5000/mortgage-minimizer/us-central1/generatePDF",
             "https://us-central1-mortgage-minimizer.cloudfunctions.net/generatePDF",
             {
               method: "POST",
@@ -922,7 +928,7 @@
               },
               body: JSON.stringify({
                 html: document.getElementById("main").innerHTML,
-                css: document.getElementsByTagName("style")[0].innerHTML,
+                css: cssData,
               }),
             }
           );
